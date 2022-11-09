@@ -1,0 +1,5 @@
+fastapi[all]
+aiopg
+python-jose[cryptography]
+passlib[bcrypt]
+redis
