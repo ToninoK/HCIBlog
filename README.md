@@ -23,4 +23,33 @@ The complete design can be found here: [Low Fidelity Design](https://excalidraw.
 
 ## High fidelity design
 
-## Running the project locally
+## Local Development
+
+To run the project locally you first have to build the docker images. To do this simply run the following command
+
+```bash
+docker compose -f docker-compose.dev.yml build
+```
+
+Once the build is done you can run the containers.
+
+```bash
+docker compose -f docker-compose.dev.yml up
+```
+
+Contrary to what the logs say, the backend is not running at localhost:8000 and the frontend is not running at localhost:3000.
+They are both proxied by the nginx server. Frontend is located at localhost:80 while backend is located at localhost:80/api.
+
+To enter inside a docker container, IE the postgres container (to be able to change the data by hand for example) run the following command:
+
+```bash
+docker exec -it <docker_container> <command>
+```
+
+Example:
+
+```bash
+docker exec -it blog_db psql blog_db -U blogger
+```
+
+Hot reloads should be working both for frontend and backend.

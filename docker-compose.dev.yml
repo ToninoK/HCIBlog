@@ -16,15 +16,27 @@ services:
       context: ./server
     hostname: api
     environment:
-      REDIS_HOST: hci_redis
+      REDIS_HOST: blog_cache
       REDIS_PORT: 6379
-      POSTGRES_USER:
-      POSTGRES_HOST: hci_postgres
-      POSTGRES_DB: hci_blog
+      POSTGRES_USER: blogger
+      POSTGRES_HOST: blog_db
+      POSTGRES_DB: blog_db
       POSTGRES_PASSWORD: 2022hciblog2023
       POSTGRES_PORT: 5432
     volumes:
       - ./server:/app
+  blog_db:
+    hostname: blog_db
+    image: postgres:latest
+    environment:
+      - POSTGRES_DB=blog_db
+      - POSTGRES_USER=blogger
+      - POSTGRES_PASSWORD=2022hciblog2023
+    volumes:
+      - database:/var/lib/postgresql/data
+  blog_redis:
+    hostname: blog_cache
+    image: redis:latest
   nginx:
     build:
       dockerfile: Dockerfile.dev
@@ -32,3 +44,6 @@ services:
     hostname: nginx
     ports:
       - "80:80"
+
+volumes:
+  database:
