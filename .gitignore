@@ -1,6 +1,12 @@
 # pycharm
 .idea
 
+# pycache
+__pycache__
+
+# fleet
+.fleet
+
 # Logs
 logs
 *.log
