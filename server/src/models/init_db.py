@@ -7,14 +7,14 @@ CREATE_TABLES_QUERY = """
         last_name VARCHAR(80),
         username VARCHAR(80),
         password VARCHAR(120),
-        email VARCHAR(80),
+        email VARCHAR(80) UNIQUE,
         description VARCHAR(512),
         facebook VARCHAR(512),
         github VARCHAR(512),
         linkedin VARCHAR(512),
         instagram VARCHAR(512),
-        created_at DATE,
-        updated_at DATE
+        created_at DATE NOT NULL DEFAULT NOW(),
+        updated_at DATE NOT NULL DEFAULT NOW()
     );
 
     CREATE TABLE IF NOT EXISTS posts (
@@ -23,16 +23,16 @@ CREATE_TABLES_QUERY = """
         title VARCHAR(80),
         content JSONB,
         tags TEXT[],
-        created_at DATE,
-        updated_at DATE
+        created_at DATE NOT NULL DEFAULT NOW(),
+        updated_at DATE NOT NULL DEFAULT NOW()
     );
 
     CREATE TABLE IF NOT EXISTS tags (
         id SERIAL PRIMARY KEY,
         name VARCHAR(80) UNIQUE,
         post_id INT REFERENCES posts(id),
-        created_at DATE,
-        updated_at DATE
+        created_at DATE NOT NULL DEFAULT NOW(),
+        updated_at DATE NOT NULL DEFAULT NOW()
     );
 
     CREATE INDEX IF NOT EXISTS tag_name_idx ON tags (name);
@@ -44,6 +44,5 @@ async def create_tables():
         try:
             await cursor.execute(CREATE_TABLES_QUERY)
         except Exception as e:
-            print(e)
             raise Exception from e
-        print("Tables successfully created")
+        print("Table creation done")
