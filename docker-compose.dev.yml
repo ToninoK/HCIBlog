@@ -24,6 +24,7 @@ services:
       POSTGRES_PASSWORD: 2022hciblog2023
       POSTGRES_PORT: 5432
       SECRET_KEY: supernotsosecretkey
+      DEBUG: True
     volumes:
       - ./server:/app
   blog_db:

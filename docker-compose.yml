@@ -1,21 +1,19 @@
 version: '3'
 services:
-  client:
-    image: "toninokastelan/hciblog-client"
-    hostname: client
   api:
-    image: "toninokastelan/hciblog-api"
+    image: "toninokastelan/hci-blog-api"
     hostname: api
     environment:
       - REDIS_HOST=$REDIS_HOST
       - REDIS_PORT=$REDIS_PORT
       - POSTGRES_USER=$POSTGRES_USER
-      - POSTGRES_HOST=POSTGRES_HOST
+      - POSTGRES_HOST=$POSTGRES_HOST
       - POSTGRES_DB=$POSTGRES_DB
       - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
       - POSTGRES_PORT=$POSTGRES_PORT
+      - SECRET_KEY=$SECRET_KEY
   nginx:
-    image: "toninokastelan/hciblog-nginx"
+    image: "toninokastelan/hci-blog-nginx"
     hostname: nginx
     ports:
       - "80:80"

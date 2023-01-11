@@ -15,11 +15,11 @@ routers = [
 for router in routers:
     app.include_router(router)
 
-origins = []
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["localhost"],
+    allow_origin_regex='https://hci-blog(-.*-)?((matejkozica)|(toninok))?\.vercel\.app',
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
