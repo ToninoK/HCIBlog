@@ -13,8 +13,8 @@ CREATE_TABLES_QUERY = """
         github VARCHAR(512),
         linkedin VARCHAR(512),
         instagram VARCHAR(512),
-        created_at DATE NOT NULL DEFAULT NOW(),
-        updated_at DATE NOT NULL DEFAULT NOW()
+        created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+        updated_at TIMESTAMP NOT NULL DEFAULT NOW()
     );
 
     CREATE TABLE IF NOT EXISTS posts (
@@ -23,16 +23,17 @@ CREATE_TABLES_QUERY = """
         title VARCHAR(80),
         content JSONB,
         tags TEXT[],
-        created_at DATE NOT NULL DEFAULT NOW(),
-        updated_at DATE NOT NULL DEFAULT NOW()
+        created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+        updated_at TIMESTAMP NOT NULL DEFAULT NOW()
     );
 
     CREATE TABLE IF NOT EXISTS tags (
         id SERIAL PRIMARY KEY,
-        name VARCHAR(80) UNIQUE,
+        name VARCHAR(80),
         post_id INT REFERENCES posts(id),
-        created_at DATE NOT NULL DEFAULT NOW(),
-        updated_at DATE NOT NULL DEFAULT NOW()
+        created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+        updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
+        CONSTRAINT tag_post_unique UNIQUE (name, post_id)
     );
 
     CREATE INDEX IF NOT EXISTS tag_name_idx ON tags (name);

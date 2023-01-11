@@ -1,0 +1,11 @@
+from fastapi import APIRouter
+
+from src.models.tags import get_tags
+
+router = APIRouter(prefix="/tags", tags=["tags"])
+
+
+@router.get("/", tags=["auth"])
+async def index():
+    tags = await get_tags()
+    return tags

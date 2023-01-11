@@ -50,7 +50,7 @@ async def logout(token: str = Depends(Auth())):
 
 
 @router.get("/session")
-async def get_session(token: dict = Depends(Auth())):
+async def get_session(token: str = Depends(Auth())):
     token_data = auth_controller.decode_jwt(token)
     user = await get_user(email=token_data["email"])
     user.pop("password")
