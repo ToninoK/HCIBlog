@@ -3,9 +3,6 @@ import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 
 export default function Home() {
-  fetch("https://hciblog-env.eba-cbstvqc3.eu-central-1.elasticbeanstalk.com/ping")
-      .then((response)=>response.json())
-      .then((data)=>console.log(data))
   return (
     <div className={styles.container}>
       <Head>
