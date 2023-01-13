@@ -3,8 +3,11 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from src.models.init_db import create_tables
 from src.routers import users, posts, tags
+from src.settings import config
 
-app = FastAPI(root_path="/api")
+ROOT_PATH = "/api" if config.DEBUG else "/"
+
+app = FastAPI(root_path=ROOT_PATH)
 
 routers = [
     posts,
