@@ -3,3 +3,4 @@ aiopg
 python-jose[cryptography]
 passlib[bcrypt]
 redis
+gunicorn

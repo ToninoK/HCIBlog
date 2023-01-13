@@ -3,8 +3,11 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from src.models.init_db import create_tables
 from src.routers import users, posts, tags
+from src.settings import config
 
-app = FastAPI(root_path="/api")
+ROOT_PATH = "/api" if config.DEBUG else "/"
+
+app = FastAPI(root_path=ROOT_PATH)
 
 routers = [
     posts,
@@ -15,11 +18,11 @@ routers = [
 for router in routers:
     app.include_router(router)
 
-origins = []
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["localhost"],
+    allow_origin_regex='https://hci-blog(-.*-)?((matejkozica)|(toninok))?\.vercel\.app',
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
