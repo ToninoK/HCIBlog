@@ -13,8 +13,6 @@ services:
       - POSTGRES_PORT=$POSTGRES_PORT
       - SECRET_KEY=$SECRET_KEY
   nginx:
-    depends_on:
-      - certbot
     image: "toninokastelan/hci-blog-nginx"
     hostname: nginx
     ports:
