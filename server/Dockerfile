@@ -12,4 +12,4 @@ COPY . /app
 
 RUN pip install -e .
 
-CMD ["gunicorn", "src.app:app", "--config=config/gunicorn_config.py", "--bind=:8000", "--preload"]
+CMD ["gunicorn", "src.app:app", "--config=config/gunicorn_config.py", "--forwarded-allow-ips='*'", "--bind=:8000", "--preload"]

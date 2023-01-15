@@ -3,9 +3,11 @@ import json
 from datetime import datetime
 from typing import List, Optional
 
-from fastapi import APIRouter, Depends, Query
+from fastapi import Depends, Query
+
 
 from src.helpers import auth_handler as auth_controller
+from src.helpers.api_router import APIRouter
 from src.helpers.auth_bearer import JWTBearer as Auth
 from src.models.posts import create_post, get_post, get_posts, update_post
 from src.models.tags import create_tag
