@@ -4,8 +4,13 @@ import { AppShell } from "@mantine/core";
 import "../styles/globals.css";
 import { Header, Navbar } from "../components";
 import PostsProvider from "../services/posts";
+import { useRouter } from "next/router";
+import Login from "./login";
 
 function MyApp({ Component, pageProps }) {
+  const router = useRouter();
+
+
   return (
     <PostsProvider>
       <MantineProvider
@@ -16,7 +21,7 @@ function MyApp({ Component, pageProps }) {
           colorScheme: "dark",
         }}
       >
-        <AppShell
+        {router.pathname === '/login' ? <Login /> :<AppShell
           padding="md"
           navbar={<Navbar />}
           header={<Header />}
@@ -30,7 +35,8 @@ function MyApp({ Component, pageProps }) {
           })}
         >
           <Component {...pageProps} />
-        </AppShell>
+        </AppShell> }
+        
       </MantineProvider>
     </PostsProvider>
   );
