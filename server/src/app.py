@@ -5,9 +5,10 @@ from src.models.init_db import create_tables
 from src.routers import users, posts, tags
 from src.settings import config
 
-ROOT_PATH = "/api" if config.DEBUG else ""
-
-app = FastAPI(root_path=ROOT_PATH)
+if config.DEBUG:
+    app = FastAPI(root_path="/api")
+else:
+    app = FastAPI()
 
 routers = [
     posts,
