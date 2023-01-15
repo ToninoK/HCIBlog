@@ -16,6 +16,7 @@
     "@mantine/next": "^5.10.0",
     "@tabler/icons": "^1.119.0",
     "axios": "^1.2.2",
+    "date-fns": "^2.29.3",
     "eslint": "8.27.0",
     "eslint-config-next": "13.0.2",
     "next": "13.0.2",
