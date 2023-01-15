@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Loader, Card, Text, Badge, Flex, Grid } from "@mantine/core";
+import { Loader, Card, Text, Badge, Flex, Grid, Center } from "@mantine/core";
 import * as dfs from "date-fns";
 
 import usePosts from "../services/posts/usePosts";
@@ -13,21 +13,27 @@ const Home = () => {
   }, []);
 
   if (postsLoading) {
-    return <Loader />;
+    return (
+      <Grid>
+        <Grid.Col span={7}>
+          <Center pt="xl">
+            <Loader size="lg"/>
+          </Center>
+        </Grid.Col>
+      </Grid>
+    )
   }
-
-  console.log("nestoo", posts);
 
   return (
     <Grid>
       <Grid.Col span={7}>
         {posts?.data?.map((post) => {
           return (
-            <Card shadow="sm" p="lg" radius="md" key={post.id} withBorder>
+            <Card shadow="sm" p="lg" mb="xl" radius="md" key={post.id} withBorder>
               <Text weight={700} size="xl">
                 {post.title}
               </Text>
-              <Text c="dimmed" size="sm" mb="md">
+              <Text c="dimmed" size="md" mb="md">
                 {dfs.format(new Date(post.created_at), "MMMM dd, y")}
               </Text>
 
