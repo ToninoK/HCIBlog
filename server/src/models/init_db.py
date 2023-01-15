@@ -37,6 +37,8 @@ CREATE_TABLES_QUERY = """
     );
 
     CREATE INDEX IF NOT EXISTS tag_name_idx ON tags (name);
+    
+    ALTER TABLE users ADD COLUMN IF NOT EXISTS profile text;
 """
 
 

@@ -20,14 +20,16 @@ async def get_post(post_id: int):
         return dict(result) if result else None
 
 
-async def get_posts(tags=None, sort=None):
+async def get_posts(sort, page, per_page, tags=None):
     async with (conn.cursor()) as cursor:
         q = "SELECT * FROM posts"
         if tags:
             tag_conditions = [f"'{tag}'=ANY(tags)" for tag in tags]
             q += f" WHERE {' AND '.join(tag_conditions)}"
-        if sort:
-            q += f" ORDER BY updated_at {sort}"
+        q += f" ORDER BY updated_at {sort}"
+        offset = (page-1) * per_page
+        q += f" LIMIT {per_page} OFFSET {offset}"
+
         await cursor.execute(q)
         result = await cursor.fetchall()
         return [dict(item) for item in result]
@@ -35,8 +37,8 @@ async def get_posts(tags=None, sort=None):
 
 async def update_post(post_id: int, data: dict):
     async with (conn.cursor()) as cursor:
-        update_fields = [f"{key}='{val}'" for key, val in data.items() if val is not None]
+        update_fields = [f"{key}=%s" for key, val in data.items() if val is not None]
         q = f"UPDATE posts SET {','.join(update_fields)} WHERE id=%s RETURNING *"
-        await cursor.execute(q, (post_id,))
+        await cursor.execute(q, (*[val for _, val in data.items() if val is not None], post_id))
         result = await cursor.fetchone()
         return dict(result) if result else None

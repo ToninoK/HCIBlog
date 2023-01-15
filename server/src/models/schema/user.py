@@ -20,3 +20,18 @@ class RegisterBody(BaseModel):
     github: Optional[str]
     linkedin: Optional[str]
     instagram: Optional[str]
+    profile: Optional[str]
+
+
+class UserBodyPartial(BaseModel):
+    first_name: Optional[str]
+    last_name: Optional[str]
+    username: Optional[str]
+    password: Optional[str]
+    email: Optional[str]
+    description: Optional[str]
+    facebook: Optional[str]
+    github: Optional[str]
+    linkedin: Optional[str]
+    instagram: Optional[str]
+    profile: Optional[str]

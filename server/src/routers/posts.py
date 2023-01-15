@@ -42,8 +42,13 @@ async def get(post_id: int):
 
 
 @router.get("/")
-async def index(tags: Optional[List[str]] = Query(default=None), sort: Optional[str] = Query(default="desc", regex="asc|desc")):
-    posts = await get_posts(tags, sort)
+async def index(
+    tags: Optional[List[str]] = Query(default=None),
+    sort: Optional[str] = Query(default="desc", regex="asc|desc"),
+    page: Optional[int] = Query(default=1, ge=1),
+    per_page: Optional[int] = Query(default=10, ge=1, le=20),
+):
+    posts = await get_posts(tags=tags, sort=sort, page=page, per_page=per_page)
     return posts
 
 
