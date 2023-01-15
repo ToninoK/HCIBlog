@@ -51,7 +51,12 @@ async def index(
     per_page: Optional[int] = Query(default=10, ge=1, le=20),
 ):
     posts = await get_posts(tags=tags, sort=sort, page=page, per_page=per_page)
-    return posts
+    data = {
+        "data": posts,
+        "page": page,
+        "per_page": per_page,
+    }
+    return data
 
 
 @router.put("/{post_id}", dependencies=[Depends(Auth())])
