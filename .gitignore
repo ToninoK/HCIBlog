@@ -3,6 +3,8 @@
 
 # pycache
 __pycache__
+*.pyc
+*.pyo
 
 # fleet
 .fleet

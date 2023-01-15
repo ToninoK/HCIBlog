@@ -18,3 +18,13 @@ async def create_user(data: dict):
         await cursor.execute(q, db_format["values"])
         result = await cursor.fetchone()
         return dict(result) if result else None
+
+
+async def update_user(user_id: int, data: dict):
+    async with (conn.cursor()) as cursor:
+        update_fields = [f"{key}=%s" for key, val in data.items() if val is not None]
+        q = f"""UPDATE posts SET {','.join(update_fields)} WHERE id=%s RETURNING *"""
+        await cursor.execute(q, (*[val for _, val in data.items() if val is not None], user_id))
+        result = await cursor.fetchone()
+        return dict(result) if result else None
+
