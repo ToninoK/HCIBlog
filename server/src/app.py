@@ -5,7 +5,7 @@ from src.models.init_db import create_tables
 from src.routers import users, posts, tags
 from src.settings import config
 
-ROOT_PATH = "/api" if config.DEBUG else "/"
+ROOT_PATH = "/api" if config.DEBUG else ""
 
 app = FastAPI(root_path=ROOT_PATH)
 
@@ -22,7 +22,7 @@ for router in routers:
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["localhost"],
-    allow_origin_regex='https://hci-blog(-.*-)?((matejkozica)|(toninok))?\.vercel\.app',
+    allow_origin_regex='https://hci-blog(-.*-)?(toninok)?\.vercel\.app',
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
