@@ -1,9 +1,10 @@
 from datetime import datetime
 
-from fastapi import APIRouter, Depends, status
+from fastapi import Depends, status
 from fastapi.responses import Response
 
 from src.helpers import auth_handler as auth_controller
+from src.helpers.api_router import APIRouter
 from src.helpers.auth_bearer import JWTBearer as Auth
 from src.helpers.errors import HTTPConflict
 from src.models.users import create_user, get_user, update_user
