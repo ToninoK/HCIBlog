@@ -1,6 +1,6 @@
 import { IconHome, IconUser, IconHash, IconClock } from "@tabler/icons";
 
-const NAVIGATION = [
+export const NAVIGATION = [
   {
     route: "/home",
     label: "Home",
@@ -23,4 +23,16 @@ const NAVIGATION = [
   },
 ];
 
-export default NAVIGATION;
+export const NAVIGATION_PROTECTED = [
+  {
+    route: "/blogs",
+    label: "Blogs",
+    icon: IconHome,
+  },
+  {
+    route: "/profile",
+    label: "Profile",
+    icon: IconUser,
+  },
+];
+

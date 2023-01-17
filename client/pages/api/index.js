@@ -1,11 +1,11 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://api.hciblog.online/",
+  baseURL: "https://api.hciblog.online",
   headers: {
     "Content-Type": "application/json",
-    "With-Credentials": true,
   },
+  withCredentials: true,
 });
 
 export default api;
