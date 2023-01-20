@@ -1,12 +1,16 @@
 import React, { useReducer } from "react";
 
 import api from "../../pages/api/index";
+import { getAuthHeader } from "../auth";
 import { getQuery } from "../../utils/query";
 
 export const PostsState = React.createContext({
-  state: { posts: null },
+  state: { posts: null, post: null },
   getPosts: (_) => null,
   getTags: (_) => null,
+  getPost: (postId) => null,
+  updatePost: (postId, data) => null,
+  createPost: (data) => null,
 });
 
 const postsReducer = (state, action) => {
@@ -49,6 +53,79 @@ const postsReducer = (state, action) => {
         tagsLoading: false,
         tagsError: action.error,
       };
+    case "CREATE_POST":
+      return {
+        ...state,
+        creatingPost: true,
+        postCreateError: null,
+      };
+    case "CREATE_POST_SUCCESS":
+      return {
+        ...state,
+        creatingPost: false,
+        postCreateError: null,
+      };
+    case "CREATE_POST_FAIL":
+      return {
+        ...state,
+        creatingPost: false,
+        postCreateError: action.error,
+      };
+    case "UPDATE_POST":
+      return {
+        ...state,
+        updatingPost: true,
+        postUpdateError: null,
+      };
+    case "UPDATE_POST_SUCCESS":
+      return {
+        ...state,
+        updatingPost: false,
+        postUpdateError: null,
+      };
+    case "UPDATE_POST_FAIL":
+      return {
+        ...state,
+        updatingPost: false,
+        postUpdateError: action.error,
+      };
+    case "GET_POST":
+      return {
+        ...state,
+        postLoading: true,
+        postError: null,
+      };
+    case "GET_POST_SUCCESS":
+      return {
+        ...state,
+        postLoading: false,
+        postError: null,
+        post: action.payload,
+      };
+    case "GET_POST_FAIL":
+      return {
+        ...state,
+        postLoading: false,
+        postError: action.error,
+      };
+    case "DELETE_POST":
+      return {
+        ...state,
+        deletingPost: true,
+        postDeleteError: null,
+      };
+    case "DELETE_POST_SUCCESS":
+      return {
+        ...state,
+        deletingPost: false,
+        postDeleteError: null,
+      };
+    case "DELETE_POST_FAIL":
+      return {
+        ...state,
+        deletingPost: false,
+        postDeleteError: action.error,
+      };
     default:
       return state;
   }
@@ -82,10 +159,61 @@ const PostsProvider = ({ children }) => {
     }
   };
 
+  const createPost = async (postData) => {
+    dispatch({ type: "CREATE_POST" })
+    try {
+      const { data } = await api.post("/posts", postData, {headers: getAuthHeader()});
+
+      dispatch({ type: "CREATE_POST_SUCCESS", payload: data });
+    } catch (error) {
+      dispatch({ type: "CREATE_POST_FAIL", error });
+    }
+  }
+
+  const updatePost = async (postId, postData) => {
+    dispatch({ type: "UPDATE_POST" })
+
+    try {
+      const { data } = await api.put(`/posts/${postId}`, postData, {headers: getAuthHeader()});
+
+      dispatch({ type: "UPDATE_POST_SUCCESS", payload: data });
+    } catch (error) {
+      dispatch({ type: "UPDATE_POST_FAIL", error });
+    }
+  }
+
+  const getPost = async (postId) => {
+    dispatch({ type: "GET_POST" });
+
+    try {
+      const { data } = await api.get(`/posts/${postId}`);
+
+      dispatch({ type: "GET_POST_SUCCESS", payload: data });
+    } catch (error) {
+      dispatch({ type: "GET_POST_FAIL", error });
+    }
+  };
+
+  const deletePost = async (postId) => {
+    dispatch({ type: "DELETE_POST" });
+
+    try {
+      const { data } = await api.delete(`/posts/${postId}`, {headers: getAuthHeader()});
+
+      dispatch({ type: "DELETE_POST_SUCCESS", payload: data });
+    } catch (error) {
+      dispatch({ type: "DELETE_POST_FAIL", error });
+    }
+  };
+
   const value = {
     ...state,
+    getPost,
     getPosts,
     getTags,
+    deletePost,
+    createPost,
+    updatePost,
   };
 
   return <PostsState.Provider value={value}>{children}</PostsState.Provider>;

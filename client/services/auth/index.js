@@ -1,5 +1,13 @@
 import api from "../../pages/api";
+import Cookies from "js-cookie"
 
+export const getAuthHeader = () => {
+    const currentUser = Cookies.get("currentUser")
+    if (currentUser) {
+        return {Authorization: "Bearer " + JSON.parse(currentUser).accessToken}
+    }
+    return {Authorization: ""}
+}
 
 export const login = async (data) => {
     const resp = await api.post("/users/login", data)
