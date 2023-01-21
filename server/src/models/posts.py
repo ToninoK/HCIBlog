@@ -20,6 +20,15 @@ async def get_post(post_id: int):
         return dict(result) if result else None
 
 
+async def delete_post(post_id: int):
+    async with (conn.cursor()) as cursor:
+        q = "DELETE FROM posts WHERE id=%s"
+        try:
+            await cursor.execute(q, (post_id,))
+        except Exception as e:
+            print(e)
+
+
 async def get_posts(sort, page, per_page, tags=None):
     async with (conn.cursor()) as cursor:
         q = "SELECT * FROM posts"

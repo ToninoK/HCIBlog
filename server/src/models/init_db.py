@@ -30,7 +30,7 @@ CREATE_TABLES_QUERY = """
     CREATE TABLE IF NOT EXISTS tags (
         id SERIAL PRIMARY KEY,
         name VARCHAR(80),
-        post_id INT REFERENCES posts(id),
+        post_id INT REFERENCES posts(id) ON DELETE CASCADE,
         created_at TIMESTAMP NOT NULL DEFAULT NOW(),
         updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
         CONSTRAINT tag_post_unique UNIQUE (name, post_id)

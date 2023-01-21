@@ -12,18 +12,19 @@ const Navbar = ({ hidden }) => {
     <MantineNavbar width={{ sm: 200, lg: 300 }} height="93vh" hidden={hidden}>
       <MantineNavbar.Section grow>
         <Stack justify="center" spacing={0} p="xs">
-          {(protectedRoutes.includes(router.pathname)
-            ? NAVIGATION_PROTECTED
-            : NAVIGATION
-          ).map((item) => (
-            <NavLink
-              key={item.label}
-              label={item.label}
-              icon={<item.icon size={16} stroke={1.5} />}
-              onClick={() => router.push(item.route)}
-              active={router.pathname === item.route}
-              style={{ borderRadius: "8px" }}
-            />
+            {(
+                protectedRoutes.some((item) => router.pathname.startsWith(item)) 
+                ? NAVIGATION_PROTECTED 
+                : NAVIGATION
+            ).map((item) => (
+              <NavLink
+                key={item.label}
+                label={item.label}
+                icon={<item.icon size={16} stroke={1.5} />}
+                onClick={() => router.push(item.route)}
+                active={router.pathname === item.route}
+                style={{ borderRadius: "8px" }}
+              />
           ))}
         </Stack>
       </MantineNavbar.Section>

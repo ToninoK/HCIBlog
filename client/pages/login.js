@@ -1,7 +1,8 @@
 import { AppShell, Center, Card, Text, Button, TextInput } from '@mantine/core';
-import { showNotification } from '@mantine/notifications';
+import {hideNotification, showNotification} from '@mantine/notifications';
 import { Header } from "../components";
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 import { useForm } from "@mantine/form"
 import { useLogin } from "../services/auth/useLogin"
 
@@ -10,6 +11,7 @@ function Login() {
     const emailRegex = new RegExp(/^[A-Za-z0-9_!#$%&'*+\/=?`{|}~^.-]+@[A-Za-z0-9.-]+$/, "gm");
     const { login } = useLogin()
     const router = useRouter();
+    const [loading, setLoading] = useState(false)
 
     const form = useForm({
         initialValues: {
@@ -29,20 +31,18 @@ function Login() {
             }
         } catch (err){
             if (err.request.status === 401) {
-                showNotification({
-                    title: 'Login Failed',
-                    message: 'Sorry, the login information you have entered is incorrect. Please check your email and password and try again.',
-                    color: 'yellow',
-                    background: "dark"
-                })
+                form.setFieldError("password", "Wrong password")
             } else {
+                hideNotification("internal_error")
                 showNotification({
+                    id: "internal_error",
+                    disallowClose: true,
                     title: 'Oops',
                     message: 'Something went wrong. Our team is notified and working on a solution. Please try again later.',
                     color: 'red',
                 })
             }
-
+            setLoading(false)
         }
     }
 
@@ -68,7 +68,7 @@ function Login() {
                             withAsterisk
                             {...form.getInputProps('password')}
                         />
-                        <Button type="submit" variant="light" color="blue" fullWidth mt="md" radius="md">
+                        <Button type="submit" onClick={() => setLoading(true)} variant="light" color="blue" fullWidth mt="md" radius="md">
                             Login
                         </Button>
                     </form>

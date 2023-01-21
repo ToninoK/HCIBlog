@@ -3,13 +3,13 @@ import json
 from datetime import datetime
 from typing import List, Optional
 
-from fastapi import Depends, Query
+from fastapi import Depends, Query, Response
 
 
 from src.helpers import auth_handler as auth_controller
 from src.helpers.api_router import APIRouter
 from src.helpers.auth_bearer import JWTBearer as Auth
-from src.models.posts import create_post, get_post, get_posts, update_post
+from src.models.posts import create_post, get_post, get_posts, update_post, delete_post
 from src.models.tags import create_tag
 from src.models.schema.post import PostBody, PostBodyPartial
 
@@ -41,6 +41,12 @@ async def create(data: PostBody, token: str = Depends(Auth())):
 async def get(post_id: int):
     post = await get_post(post_id)
     return post
+
+
+@router.delete("/{post_id}", dependencies=[Depends(Auth())])
+async def post_delete(post_id: int):
+    await delete_post(post_id)
+    return Response(None, status_code=204)
 
 
 @router.get("/")

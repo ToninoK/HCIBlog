@@ -3,12 +3,14 @@ import { useState } from "react";
 import Head from "next/head";
 import { MantineProvider, AppShell } from "@mantine/core";
 import { NotificationsProvider } from "@mantine/notifications";
+import { ModalsProvider } from '@mantine/modals';
 
 import "../styles/globals.css";
 import { Header, Navbar } from "../components";
 import PostsProvider from "../services/posts";
 import { useRouter } from "next/router";
 import Login from "./login";
+import { pathnameTabName } from "../consts/routes"
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
@@ -18,10 +20,7 @@ function MyApp({ Component, pageProps }) {
     <>
       <Head>
         <title>
-          {router.pathname === "/"
-            ? "Home"
-            : router.pathname.substring(1)[0].toUpperCase() +
-              router.pathname.substring(2)}
+          {pathnameTabName[router.pathname]}
         </title>
       </Head>
       <PostsProvider>
@@ -33,28 +32,30 @@ function MyApp({ Component, pageProps }) {
             colorScheme: "dark",
           }}
         >
-          <NotificationsProvider position="bottom-center">
-            {router.pathname === "/login" ? (
-              <Login />
-            ) : (
-              <AppShell
-                padding="xl"
-                navbarOffsetBreakpoint="sm"
-                navbar={<Navbar hidden={!opened} />}
-                header={<Header opened={opened} onBurgerClick={setOpened} />}
-                styles={(theme) => ({
-                  main: {
-                    backgroundColor:
-                      theme.colorScheme === "dark"
-                        ? theme.colors.dark[8]
-                        : theme.colors.gray[0],
-                  },
-                })}
-              >
-                <Component {...pageProps} />
-              </AppShell>
-            )}
-          </NotificationsProvider>
+          <ModalsProvider>
+            <NotificationsProvider position="bottom-center">
+              {router.pathname === "/login" ? (
+                <Login />
+              ) : (
+                <AppShell
+                  padding="xl"
+                  navbarOffsetBreakpoint="sm"
+                  navbar={<Navbar hidden={!opened} />}
+                  header={<Header opened={opened} onBurgerClick={setOpened} />}
+                  styles={(theme) => ({
+                    main: {
+                      backgroundColor:
+                        theme.colorScheme === "dark"
+                          ? theme.colors.dark[8]
+                          : theme.colors.gray[0],
+                    },
+                  })}
+                >
+                  <Component {...pageProps} />
+                </AppShell>
+              )}
+            </NotificationsProvider>
+          </ModalsProvider>
         </MantineProvider>
       </PostsProvider>
     </>

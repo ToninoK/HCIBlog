@@ -5,12 +5,19 @@ import {
   Flex,
   MediaQuery,
   Burger,
+  Button,
 } from "@mantine/core";
 import { useRouter } from "next/router";
-import { IconSearch } from "@tabler/icons";
+import { IconSearch, IconPlus } from "@tabler/icons";
+
+import { protectedRoutes } from "../../consts/routes";
 
 const Header = ({ opened, onBurgerClick }) => {
   const router = useRouter();
+
+  const handleClickCreate = () => {
+    router.push("/blogs/create")
+  }
 
   return (
     <MantineHeader height="65" p="xs">
@@ -31,13 +38,21 @@ const Header = ({ opened, onBurgerClick }) => {
         <MediaQuery smallerThan="md" styles={{ display: "none" }}>
           <Title order={1}>HCIBlog</Title>
         </MediaQuery>
-        {router.pathname === "/login" ? null : (
-          <Input
-            icon={<IconSearch size={18} />}
-            placeholder="Search"
-            radius="md"
-          />
-        )}
+        <Flex justify="right" gap={20}>
+          {
+            protectedRoutes.some((item) => router.pathname.startsWith(item)) ?
+            <Button type="submit" variant="light" color="blue" radius="md" onClick={handleClickCreate}>
+              Create Post <IconPlus size={15} style={{marginLeft: "5px"}}/>
+            </Button> : null
+          }
+          {router.pathname === "/login" ? null :
+            <Input
+              icon={<IconSearch size={18} />}
+              placeholder="Search"
+              radius="md"
+            />
+          }
+        </Flex>
       </Flex>
     </MantineHeader>
   );
