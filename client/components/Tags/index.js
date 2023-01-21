@@ -1,9 +1,12 @@
 import React from "react";
-import { Card, Badge, Flex, UnstyledButton } from "@mantine/core";
+import { Card, Badge, Flex, UnstyledButton, Text } from "@mantine/core";
 
 const Tags = ({ tags, onClick, selectedTags }) => {
   return (
     <Card shadow="sm" p="lg" mb="xl" radius="md" withBorder>
+      <Text weight="bold" size="lg">
+        Popular tags
+      </Text>
       <Flex
         gap="md"
         justify="flex-start"
