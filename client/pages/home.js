@@ -1,17 +1,9 @@
 import { useEffect, useState } from "react";
-import {
-  Loader,
-  Card,
-  Text,
-  Badge,
-  Flex,
-  Grid,
-  Center,
-  UnstyledButton,
-} from "@mantine/core";
+import { Loader, Card, Text, Badge, Flex, Grid, Center } from "@mantine/core";
 import * as dfs from "date-fns";
 
 import usePosts from "../services/posts/usePosts";
+import Tags from "../components/Tags";
 
 const Home = () => {
   const { posts, postsLoading, tags, tagsLoading, getPosts, getTags } =
@@ -50,7 +42,7 @@ const Home = () => {
   };
 
   return (
-    <Grid align="space-between">
+    <Grid justify="space-between">
       <Grid.Col span={7}>
         {posts?.data?.map((post) => {
           return (
@@ -83,34 +75,11 @@ const Home = () => {
         })}
       </Grid.Col>
       <Grid.Col span={4}>
-        <Card shadow="sm" p="lg" mb="xl" radius="md" withBorder>
-          <Flex
-            gap="md"
-            justify="flex-start"
-            align="center"
-            direction="row"
-            wrap="wrap"
-          >
-            {tags?.map((tag) => {
-              return (
-                <UnstyledButton
-                  key={tag.name}
-                  onClick={() => handleTagClick(tag.name)}
-                >
-                  <Badge
-                    size="lg"
-                    color="cyan"
-                    variant={
-                      selectedTags.includes(tag.name) ? "filled" : "light"
-                    }
-                  >
-                    #{tag.name}
-                  </Badge>
-                </UnstyledButton>
-              );
-            })}
-          </Flex>
-        </Card>
+        <Tags
+          tags={tags}
+          onClick={handleTagClick}
+          selectedTags={selectedTags}
+        />
       </Grid.Col>
     </Grid>
   );
