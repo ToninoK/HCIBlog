@@ -4,8 +4,13 @@ import api from "../../pages/api/index";
 import { getAuthHeader } from "../auth";
 import { getQuery } from "../../utils/query";
 
+const DEFAULT_STATE = {
+  posts: [],
+  selectedTags: [],
+};
+
 export const PostsState = React.createContext({
-  state: { posts: null, post: null },
+  state: { ...DEFAULT_STATE },
   getPosts: (_) => null,
   getTags: (_) => null,
   getPost: (postId) => null,
@@ -14,6 +19,7 @@ export const PostsState = React.createContext({
 });
 
 const postsReducer = (state, action) => {
+  console.log("nesto", state);
   switch (action.type) {
     case "GET_POSTS":
       return {
@@ -126,18 +132,29 @@ const postsReducer = (state, action) => {
         deletingPost: false,
         postDeleteError: action.error,
       };
+    case "TOGGLE_SELECTED_TAGS":
+      return {
+        ...state,
+        ...(state.selectedTags.includes(action.payload)
+          ? {
+              selectedTags: state.selectedTags.filter(
+                (t) => t !== action.payload
+              ),
+            }
+          : { selectedTags: [...state.selectedTags, action.payload] }),
+      };
     default:
       return state;
   }
 };
 
 const PostsProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(postsReducer, {});
+  const [state, dispatch] = useReducer(postsReducer, DEFAULT_STATE);
 
   const getPosts = async (tags = null) => {
     dispatch({ type: "GET_POSTS" });
 
-    const query = getQuery({ tags });
+    const query = getQuery({ tags, sort: "desc" });
 
     try {
       const { data } = await api.get(`/posts${query}`);
@@ -160,27 +177,31 @@ const PostsProvider = ({ children }) => {
   };
 
   const createPost = async (postData) => {
-    dispatch({ type: "CREATE_POST" })
+    dispatch({ type: "CREATE_POST" });
     try {
-      const { data } = await api.post("/posts", postData, {headers: getAuthHeader()});
+      const { data } = await api.post("/posts", postData, {
+        headers: getAuthHeader(),
+      });
 
       dispatch({ type: "CREATE_POST_SUCCESS", payload: data });
     } catch (error) {
       dispatch({ type: "CREATE_POST_FAIL", error });
     }
-  }
+  };
 
   const updatePost = async (postId, postData) => {
-    dispatch({ type: "UPDATE_POST" })
+    dispatch({ type: "UPDATE_POST" });
 
     try {
-      const { data } = await api.put(`/posts/${postId}`, postData, {headers: getAuthHeader()});
+      const { data } = await api.put(`/posts/${postId}`, postData, {
+        headers: getAuthHeader(),
+      });
 
       dispatch({ type: "UPDATE_POST_SUCCESS", payload: data });
     } catch (error) {
       dispatch({ type: "UPDATE_POST_FAIL", error });
     }
-  }
+  };
 
   const getPost = async (postId) => {
     dispatch({ type: "GET_POST" });
@@ -198,12 +219,17 @@ const PostsProvider = ({ children }) => {
     dispatch({ type: "DELETE_POST" });
 
     try {
-      const { data } = await api.delete(`/posts/${postId}`, {headers: getAuthHeader()});
+      const { data } = await api.delete(`/posts/${postId}`, {
+        headers: getAuthHeader(),
+      });
 
       dispatch({ type: "DELETE_POST_SUCCESS", payload: data });
     } catch (error) {
       dispatch({ type: "DELETE_POST_FAIL", error });
     }
+  };
+  const toggleSelectedTags = (tag) => {
+    dispatch({ type: "TOGGLE_SELECTED_TAGS", payload: tag });
   };
 
   const value = {
@@ -214,6 +240,7 @@ const PostsProvider = ({ children }) => {
     deletePost,
     createPost,
     updatePost,
+    toggleSelectedTags,
   };
 
   return <PostsState.Provider value={value}>{children}</PostsState.Provider>;

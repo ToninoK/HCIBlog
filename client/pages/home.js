@@ -1,15 +1,22 @@
-import { useEffect, useState } from "react";
-import { Loader, Card, Text, Badge, Flex, Grid, Center } from "@mantine/core";
+import { useEffect } from "react";
+import {
+  Loader,
+  Card,
+  Text,
+  Badge,
+  Flex,
+  Grid,
+  Center,
+  MediaQuery,
+} from "@mantine/core";
 import * as dfs from "date-fns";
 
 import usePosts from "../services/posts/usePosts";
 import Tags from "../components/Tags";
 
 const Home = () => {
-  const { posts, postsLoading, tags, tagsLoading, getPosts, getTags } =
+  const { posts, postsLoading, tagsLoading, selectedTags, getPosts, getTags } =
     usePosts();
-
-  const [selectedTags, setSelectedTags] = useState([]);
 
   useEffect(() => {
     getTags();
@@ -32,14 +39,6 @@ const Home = () => {
       </Grid>
     );
   }
-
-  const handleTagClick = (tag) => {
-    if (selectedTags.includes(tag)) {
-      setSelectedTags(selectedTags.filter((t) => t !== tag));
-    } else {
-      setSelectedTags([...selectedTags, tag]);
-    }
-  };
 
   return (
     <Grid justify="space-between">
@@ -74,13 +73,11 @@ const Home = () => {
           );
         })}
       </Grid.Col>
-      <Grid.Col span={4}>
-        <Tags
-          tags={tags}
-          onClick={handleTagClick}
-          selectedTags={selectedTags}
-        />
-      </Grid.Col>
+      <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
+        <Grid.Col span={4}>
+          <Tags />
+        </Grid.Col>
+      </MediaQuery>
     </Grid>
   );
 };
