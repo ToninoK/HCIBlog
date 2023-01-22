@@ -8,7 +8,7 @@ CREATE_TABLES_QUERY = """
         username VARCHAR(80),
         password VARCHAR(120),
         email VARCHAR(80) UNIQUE,
-        description VARCHAR(512),
+        description VARCHAR(2000),
         facebook VARCHAR(512),
         github VARCHAR(512),
         linkedin VARCHAR(512),
@@ -39,6 +39,8 @@ CREATE_TABLES_QUERY = """
     CREATE INDEX IF NOT EXISTS tag_name_idx ON tags (name);
     
     ALTER TABLE users ADD COLUMN IF NOT EXISTS profile text;
+
+    ALTER TABLE users ALTER COLUMN description TYPE VARCHAR(2000);
 """
 
 
