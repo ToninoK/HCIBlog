@@ -1,5 +1,5 @@
-export const protectedRoutes = ["/blogs", "/profile"]
-export const publicRoutes = ["/home", "/about", "/", "/timeline", "/tags"]
+export const protectedRoutes = ["/blogs", "/profile", "/find"]
+export const publicRoutes = ["/home", "/about", "/", "/timeline", "/tags", "/search"]
 export const pathnameTabName = {
     "/blogs": "Blogs",
     "/blogs/[id]": "Edit post",
@@ -11,4 +11,8 @@ export const pathnameTabName = {
     "/tags": "Tags",
     "/profile": "Profile",
     "/login": "Login",
+    "/search": "Search",
+    "/search/[term]": "Search",
+    "/find": "Find",
+    "/find/[term]": "Find",
 }

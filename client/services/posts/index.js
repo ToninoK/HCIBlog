@@ -5,7 +5,7 @@ import { getAuthHeader } from "../auth";
 import { getQuery } from "../../utils/query";
 
 const DEFAULT_STATE = {
-  posts: [],
+  posts: {data: [], page: null, per_page: null},
   selectedTags: [],
 };
 
@@ -19,7 +19,6 @@ export const PostsState = React.createContext({
 });
 
 const postsReducer = (state, action) => {
-  console.log("nesto", state);
   switch (action.type) {
     case "GET_POSTS":
       return {
