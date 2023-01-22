@@ -5,7 +5,7 @@ import { getAuthHeader } from "../auth";
 import { getQuery } from "../../utils/query";
 
 const DEFAULT_STATE = {
-  posts: {data: [], page: null, per_page: null},
+  posts: { data: [], page: null, per_page: null },
   selectedTags: [],
 };
 

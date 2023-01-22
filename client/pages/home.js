@@ -41,7 +41,7 @@ const Home = () => {
   }
 
   return (
-    <Grid justify="space-between">
+    <Grid justify="space-between" grow>
       <Grid.Col span={7}>
         {posts?.data?.map((post) => {
           return (

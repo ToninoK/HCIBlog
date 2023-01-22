@@ -3,14 +3,14 @@ import { useState } from "react";
 import Head from "next/head";
 import { MantineProvider, AppShell } from "@mantine/core";
 import { NotificationsProvider } from "@mantine/notifications";
-import { ModalsProvider } from '@mantine/modals';
+import { ModalsProvider } from "@mantine/modals";
 
 import "../styles/globals.css";
 import { Header, Navbar } from "../components";
 import PostsProvider from "../services/posts";
 import { useRouter } from "next/router";
 import Login from "./login";
-import { pathnameTabName } from "../consts/routes"
+import { pathnameTabName } from "../consts/routes";
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
@@ -19,9 +19,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <>
       <Head>
-        <title>
-          {pathnameTabName[router.pathname]}
-        </title>
+        <title>{pathnameTabName[router.pathname]}</title>
       </Head>
       <PostsProvider>
         <MantineProvider
@@ -40,7 +38,12 @@ function MyApp({ Component, pageProps }) {
                 <AppShell
                   padding="xl"
                   navbarOffsetBreakpoint="sm"
-                  navbar={<Navbar hidden={!opened} />}
+                  navbar={
+                    <Navbar
+                      hidden={!opened}
+                      onClick={() => setOpened((o) => !o)}
+                    />
+                  }
                   header={<Header opened={opened} onBurgerClick={setOpened} />}
                   styles={(theme) => ({
                     main: {

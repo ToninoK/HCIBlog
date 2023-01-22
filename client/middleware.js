@@ -3,9 +3,11 @@ import { protectedRoutes } from "./consts/routes";
 
 export function middleware(request) {
   const currentUser = request.cookies.get("currentUser")?.value;
-  const isProtected = protectedRoutes.some((item) => request.nextUrl.pathname.startsWith(item));
+  const isProtected = protectedRoutes.some((item) =>
+    request.nextUrl.pathname.startsWith(item)
+  );
   if (
-     isProtected &&
+    isProtected &&
     (!currentUser || Date.now() > JSON.parse(currentUser).expiredAt)
   ) {
     request.cookies.delete("currentUser");
@@ -19,4 +21,3 @@ export function middleware(request) {
     return NextResponse.redirect(new URL("/blogs", request.url));
   }
 }
-
