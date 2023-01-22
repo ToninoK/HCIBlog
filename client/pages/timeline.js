@@ -41,35 +41,37 @@ const Timeline = () => {
   }
 
   return (
-    <Grid justify="space-between">
-      <Grid.Col span={7}>
-        <Title order={1} weight="bold" mb="lg">
-          Timeline
-        </Title>
-        <Card shadow="sm" p="lg" mb="xl" radius="md" withBorder>
-          <MantineTimeline
-            active={posts?.data?.length - 1}
-            bulletSize={20}
-            lineWidth={2}
-          >
-            {posts?.data?.map((post) => {
-              return (
-                <MantineTimeline.Item title={post.title} key={post.id}>
-                  <Text size="xs" mt={4}>
-                    {dfs.format(new Date(post.created_at), "MMMM dd, y")}
-                  </Text>
-                </MantineTimeline.Item>
-              );
-            })}
-          </MantineTimeline>
-        </Card>
-      </Grid.Col>
-      <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
-        <Grid.Col span={4}>
-          <Tags />
+    <>
+      <Title order={1} weight="bold" mb="lg">
+        Timeline
+      </Title>
+      <Grid justify="space-between" grow>
+        <Grid.Col span={7}>
+          <Card shadow="sm" p="lg" mb="xl" radius="md" withBorder>
+            <MantineTimeline
+              active={posts?.data?.length - 1}
+              bulletSize={20}
+              lineWidth={2}
+            >
+              {posts?.data?.map((post) => {
+                return (
+                  <MantineTimeline.Item title={post.title} key={post.id}>
+                    <Text size="xs" mt={4}>
+                      {dfs.format(new Date(post.created_at), "MMMM dd, y")}
+                    </Text>
+                  </MantineTimeline.Item>
+                );
+              })}
+            </MantineTimeline>
+          </Card>
         </Grid.Col>
-      </MediaQuery>
-    </Grid>
+        <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
+          <Grid.Col span={4}>
+            <Tags />
+          </Grid.Col>
+        </MediaQuery>
+      </Grid>
+    </>
   );
 };
 
