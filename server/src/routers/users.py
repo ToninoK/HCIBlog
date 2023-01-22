@@ -70,3 +70,12 @@ async def update(user_id: int, data: UserBodyPartial):
     payload["updated_at"] = datetime.now()
     updated_user = await update_user(user_id, payload)
     return updated_user
+
+
+@router.get("/{user_email}/about")
+async def get_about(user_email: str):
+    user = await get_user(email=user_email)
+    if not user:
+        return Response(None, status.HTTP_404_NOT_FOUND)
+    user.pop("password")
+    return user
