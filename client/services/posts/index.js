@@ -151,6 +151,7 @@ const PostsProvider = ({ children }) => {
   const [state, dispatch] = useReducer(postsReducer, DEFAULT_STATE);
 
   const getPosts = async (tags = null) => {
+    console.log("nestoo", tags);
     dispatch({ type: "GET_POSTS" });
 
     const query = getQuery({ tags, sort: "desc" });
