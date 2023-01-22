@@ -10,13 +10,29 @@ import {
 import { useRouter } from "next/router";
 import { IconSearch, IconPlus } from "@tabler/icons";
 
-import { protectedRoutes } from "../../consts/routes";
+import { isProtectedRoute } from "../../utils/helpers";
+
 
 const Header = ({ opened, onBurgerClick }) => {
   const router = useRouter();
 
   const handleClickCreate = () => {
     router.push("/blogs/create")
+  }
+  const handleSearch = (e) => {
+    if (isProtectedRoute(router)) {
+      if (e.target.value === "") {
+        router.push('/blogs')
+      } else {
+        router.push(`/find/${e.target.value}`)
+      }
+    } else {
+      if (e.target.value === "") {
+        router.push('/home')
+      } else {
+        router.push(`/search/${e.target.value}`)
+      }
+    }
   }
 
   return (
@@ -40,8 +56,8 @@ const Header = ({ opened, onBurgerClick }) => {
         </MediaQuery>
         <Flex justify="right" gap={20}>
           {
-            protectedRoutes.some((item) => router.pathname.startsWith(item)) ?
-            <Button type="submit" variant="light" color="blue" radius="md" onClick={handleClickCreate}>
+            isProtectedRoute(router) ?
+            <Button variant="light" color="blue" radius="md" onClick={handleClickCreate}>
               Create Post <IconPlus size={15} style={{marginLeft: "5px"}}/>
             </Button> : null
           }
@@ -50,6 +66,7 @@ const Header = ({ opened, onBurgerClick }) => {
               icon={<IconSearch size={18} />}
               placeholder="Search"
               radius="md"
+              onChange={handleSearch}
             />
           }
         </Flex>

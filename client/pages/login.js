@@ -1,5 +1,5 @@
-import { AppShell, Center, Card, Text, Button, TextInput } from '@mantine/core';
-import {hideNotification, showNotification} from '@mantine/notifications';
+import { AppShell, Center, Card, Text, Button, TextInput, PasswordInput } from '@mantine/core';
+import { hideNotification, showNotification } from '@mantine/notifications';
 import { Header } from "../components";
 import { useRouter } from 'next/router';
 import { useState } from 'react';
@@ -24,9 +24,12 @@ function Login() {
         },
     })
     const attemptLogin = async (values) => {
+        setLoading(true)
         try {
             const resp = await login(values);
+            console.log(resp.status)
             if (resp.status === 200) {
+                console.log(resp.status)
                 router.push("/blogs")
             }
         } catch (err){
@@ -56,19 +59,20 @@ function Login() {
                             placeholder="Your email"
                             label="Email"
                             mb="md"
+                            variant='filled'
                             type="email"
                             withAsterisk
                             {...form.getInputProps('email')}
                         />
-                        <TextInput
+                        <PasswordInput
                             placeholder="Your password"
                             label="Password"
                             mb="xl"
-                            type="password"
+                            variant='filled'
                             withAsterisk
                             {...form.getInputProps('password')}
                         />
-                        <Button type="submit" onClick={() => setLoading(true)} variant="light" color="blue" fullWidth mt="md" radius="md">
+                        <Button type="submit" loading={loading} variant="light" color="blue" fullWidth mt="md" radius="md">
                             Login
                         </Button>
                     </form>
