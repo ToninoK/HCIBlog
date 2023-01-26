@@ -21,6 +21,7 @@ class RegisterBody(BaseModel):
     linkedin: Optional[str]
     instagram: Optional[str]
     profile: Optional[str]
+    title: Optional[str]
 
 
 class UserBodyPartial(BaseModel):
@@ -35,3 +36,4 @@ class UserBodyPartial(BaseModel):
     linkedin: Optional[str]
     instagram: Optional[str]
     profile: Optional[str]
+    title: Optional[str]
