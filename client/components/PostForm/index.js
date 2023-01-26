@@ -8,6 +8,7 @@ import {
   MultiSelect,
   Flex,
   Text,
+  MediaQuery
 } from "@mantine/core";
 import { openConfirmModal } from "@mantine/modals";
 import { RichTextEditor } from "@mantine/tiptap";
@@ -122,7 +123,7 @@ function PostForm({ id, submitHandler }) {
 
   if (postLoading) {
     return (
-      <Grid.Col>
+      <Grid.Col sm={12}>
         <Center pt="xl">
           <Loader size="lg" />
         </Center>
@@ -171,7 +172,7 @@ function PostForm({ id, submitHandler }) {
         disallowClose: true,
         title: "Oops",
         message:
-          "Something went wrong deelting the post. Our team is notified and working on a solution. Please try again later.",
+          "Something went wrong deleting the post. Our team is notified and working on a solution. Please try again later.",
         color: "red",
       });
     } else {
@@ -193,7 +194,6 @@ function PostForm({ id, submitHandler }) {
   };
 
   const openModal = () => {
-    console.log("here");
     return openConfirmModal({
       title: "Please confirm your action",
       children: (
@@ -217,118 +217,120 @@ function PostForm({ id, submitHandler }) {
   return (
     <Grid.Col>
       <Flex justify="center">
-        <form style={{ width: "75%" }} onSubmit={form.onSubmit(handleSubmit)}>
-          <TextInput
-            placeholder="Your awesome title"
-            label="Title"
-            mb="md"
-            type="text"
-            withAsterisk
-            {...form.getInputProps("title")}
-          />
-          <TextInput
-            placeholder="This should summarize the main idea of your blog in a couple of sentences"
-            label="Summary"
-            mb="md"
-            type="text"
-            withAsterisk
-            {...form.getInputProps("summary")}
-          />
-          <MultiSelect
-            label="Tags"
-            data={selectedTags}
-            placeholder="Mark your post with relevant tags"
-            creatable
-            mb="lg"
-            searchable
-            rightSection={<></>}
-            getCreateLabel={(query) => `+ Create ${query}`}
-            onCreate={(query) => {
-              const item = { value: query, label: query };
-              setSelectedTags((current) => [...current, item]);
-              return item;
-            }}
-            {...form.getInputProps("tags")}
-          />
-          <Divider
-            mt="xl"
-            labelPosition="center"
-            label={
-              <h3>
-                Your post
-                <span style={{ color: "red", marginLeft: "4px" }}>*</span>
-              </h3>
-            }
-          />
-          <RichTextEditor editor={editor} mb="lg">
-            <RichTextEditor.Toolbar sticky stickyOffset={60}>
-              <RichTextEditor.ControlsGroup>
-                <RichTextEditor.Bold />
-                <RichTextEditor.Italic />
-                <RichTextEditor.Underline />
-                <RichTextEditor.Strikethrough />
-                <RichTextEditor.ClearFormatting />
-                <RichTextEditor.Highlight />
-                <RichTextEditor.Code />
-                <RichTextEditor.CodeBlock />
-              </RichTextEditor.ControlsGroup>
+        <MediaQuery smallerThan="sm" styles={{width: "100%"}}>
+          <form onSubmit={form.onSubmit(handleSubmit)} width={"75%"}>
+            <TextInput
+              placeholder="Your awesome title"
+              label="Title"
+              mb="md"
+              type="text"
+              withAsterisk
+              {...form.getInputProps("title")}
+            />
+            <TextInput
+              placeholder="This should summarize the main idea of your blog in a couple of sentences"
+              label="Summary"
+              mb="md"
+              type="text"
+              withAsterisk
+              {...form.getInputProps("summary")}
+            />
+            <MultiSelect
+              label="Tags"
+              data={selectedTags}
+              placeholder="Mark your post with relevant tags"
+              creatable
+              mb="lg"
+              searchable
+              rightSection={<></>}
+              getCreateLabel={(query) => `+ Create ${query}`}
+              onCreate={(query) => {
+                const item = { value: query, label: query };
+                setSelectedTags((current) => [...current, item]);
+                return item;
+              }}
+              {...form.getInputProps("tags")}
+            />
+            <Divider
+              mt="xl"
+              labelPosition="center"
+              label={
+                <h3>
+                  Your post
+                  <span style={{ color: "red", marginLeft: "4px" }}>*</span>
+                </h3>
+              }
+            />
+            <RichTextEditor editor={editor} mb="lg">
+              <RichTextEditor.Toolbar sticky stickyOffset={60}>
+                <RichTextEditor.ControlsGroup>
+                  <RichTextEditor.Bold />
+                  <RichTextEditor.Italic />
+                  <RichTextEditor.Underline />
+                  <RichTextEditor.Strikethrough />
+                  <RichTextEditor.ClearFormatting />
+                  <RichTextEditor.Highlight />
+                  <RichTextEditor.Code />
+                  <RichTextEditor.CodeBlock />
+                </RichTextEditor.ControlsGroup>
 
-              <RichTextEditor.ControlsGroup>
-                <RichTextEditor.H1 />
-                <RichTextEditor.H2 />
-                <RichTextEditor.H3 />
-                <RichTextEditor.H4 />
-              </RichTextEditor.ControlsGroup>
+                <RichTextEditor.ControlsGroup>
+                  <RichTextEditor.H1 />
+                  <RichTextEditor.H2 />
+                  <RichTextEditor.H3 />
+                  <RichTextEditor.H4 />
+                </RichTextEditor.ControlsGroup>
 
-              <RichTextEditor.ControlsGroup>
-                <RichTextEditor.Blockquote />
-                <RichTextEditor.Hr />
-                <RichTextEditor.BulletList />
-                <RichTextEditor.OrderedList />
-                <RichTextEditor.Subscript />
-                <RichTextEditor.Superscript />
-              </RichTextEditor.ControlsGroup>
+                <RichTextEditor.ControlsGroup>
+                  <RichTextEditor.Blockquote />
+                  <RichTextEditor.Hr />
+                  <RichTextEditor.BulletList />
+                  <RichTextEditor.OrderedList />
+                  <RichTextEditor.Subscript />
+                  <RichTextEditor.Superscript />
+                </RichTextEditor.ControlsGroup>
 
-              <RichTextEditor.ControlsGroup>
-                <RichTextEditor.Link />
-                <RichTextEditor.Unlink />
-              </RichTextEditor.ControlsGroup>
+                <RichTextEditor.ControlsGroup>
+                  <RichTextEditor.Link />
+                  <RichTextEditor.Unlink />
+                </RichTextEditor.ControlsGroup>
 
-              <RichTextEditor.ControlsGroup>
-                <RichTextEditor.AlignLeft />
-                <RichTextEditor.AlignCenter />
-                <RichTextEditor.AlignJustify />
-                <RichTextEditor.AlignRight />
-              </RichTextEditor.ControlsGroup>
-            </RichTextEditor.Toolbar>
-            <RichTextEditor.Content {...form.getInputProps("content")} style={{height: "400px", overflowY: "auto"}}/>
-          </RichTextEditor>
-          <Flex justify="space-between">
-            <Button
-              loading={buttonLoading}
-              onClick={(e) => handleSubmit}
-              type="submit"
-              variant="light"
-              color="blue"
-              mt="md"
-              radius="md"
-            >
-              Submit
-            </Button>
-            {postId ? (
+                <RichTextEditor.ControlsGroup>
+                  <RichTextEditor.AlignLeft />
+                  <RichTextEditor.AlignCenter />
+                  <RichTextEditor.AlignJustify />
+                  <RichTextEditor.AlignRight />
+                </RichTextEditor.ControlsGroup>
+              </RichTextEditor.Toolbar>
+              <RichTextEditor.Content {...form.getInputProps("content")} style={{height: "400px", overflowY: "auto"}}/>
+            </RichTextEditor>
+            <Flex justify="space-between">
               <Button
-                loading={deleteLoading}
-                onClick={openModal}
+                loading={buttonLoading}
+                onClick={(e) => handleSubmit}
+                type="submit"
                 variant="light"
-                color="red"
+                color="blue"
                 mt="md"
                 radius="md"
               >
-                Delete
+                Submit
               </Button>
-            ) : null}
-          </Flex>
-        </form>
+              {postId ? (
+                <Button
+                  loading={deleteLoading}
+                  onClick={openModal}
+                  variant="light"
+                  color="red"
+                  mt="md"
+                  radius="md"
+                >
+                  Delete
+                </Button>
+              ) : null}
+            </Flex>
+          </form>
+        </MediaQuery>
       </Flex>
     </Grid.Col>
   );

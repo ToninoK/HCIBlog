@@ -38,7 +38,7 @@ const Search = () => {
         <Grid gutter="sm">
             {
                 searchResult.map(({ obj }) => (
-                    <Grid.Col key={obj.id} span={3}>
+                    <Grid.Col key={obj.id} sm={6} md={3}>
                         <Card
                             shadow="sm"
                             p="lg"

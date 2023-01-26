@@ -31,7 +31,7 @@ const Home = () => {
   if (postsLoading || tagsLoading) {
     return (
       <Grid>
-        <Grid.Col span={7}>
+        <Grid.Col sm={12} md={7}>
           <Center pt="xl">
             <Loader size="lg" />
           </Center>

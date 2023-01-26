@@ -31,7 +31,7 @@ function Blogs() {
   if (postsLoading) {
     return (
       <Grid>
-        <Grid.Col span={7}>
+        <Grid.Col sm={12} lg={7}>
           <Center pt="xl">
             <Loader size="lg" />
           </Center>
