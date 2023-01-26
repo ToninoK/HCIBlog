@@ -122,7 +122,7 @@ const Profile = () => {
     if (userLoading || updatingUser) {
       return (
         <Grid>
-          <Grid.Col span={7}>
+          <Grid.Col sm={12} md={7}>
             <Center pt="xl">
               <Loader size="lg" />
             </Center>
@@ -133,7 +133,7 @@ const Profile = () => {
 
     return (
       <Grid>
-        <Grid.Col span={7}>
+        <Grid.Col sm={12} md={7}>
         <form onSubmit={form.onSubmit(handleSubmit)}>
           <Flex justify="flex-start" direction="column" gap="md">
             <Image radius="md" alt="Profile picture" width={250} height={250} src={getSrc()} withPlaceholder />

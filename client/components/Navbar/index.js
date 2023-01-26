@@ -15,7 +15,7 @@ const Navbar = ({ hidden, onClick }) => {
 
   return (
     <MantineNavbar
-      width={{ sm: hidden ? 0 : 200, lg: 300 }}
+      width={{ sm: hidden ? 0 : 200, md: 200, lg: 300 }}
       height="93vh"
       hidden={hidden}
     >
