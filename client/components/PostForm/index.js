@@ -301,7 +301,7 @@ function PostForm({ id, submitHandler }) {
                 <RichTextEditor.AlignRight />
               </RichTextEditor.ControlsGroup>
             </RichTextEditor.Toolbar>
-            <RichTextEditor.Content {...form.getInputProps("content")} />
+            <RichTextEditor.Content {...form.getInputProps("content")} style={{height: "400px", overflowY: "auto"}}/>
           </RichTextEditor>
           <Flex justify="space-between">
             <Button
