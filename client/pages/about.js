@@ -26,15 +26,13 @@ const About = () => {
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log("nesto", user);
-
   return (
     <>
       <Title order={1} weight="bold" mb="lg">
         About
       </Title>
       <Grid justify="space-between">
-        <Grid.Col span={7}>
+        <Grid.Col span={6}>
           <Card shadow="sm" p="lg" radius="md" withBorder mb="lg">
             <TypographyStylesProvider>
               <div dangerouslySetInnerHTML={{ __html: user?.description }} />
@@ -43,28 +41,32 @@ const About = () => {
           <Flex direction="row" align="center" gap="lg">
             <a target="_blank" href={user?.facebook} rel="noreferrer">
               <ActionIcon variant="default">
-                <IconBrandFacebook size={28} />
+                <IconBrandFacebook size={32} />
               </ActionIcon>
             </a>
             <a target="_blank" href={user?.instagram} rel="noreferrer">
               <ActionIcon variant="default">
-                <IconBrandInstagram size={28} />
+                <IconBrandInstagram size={32} />
               </ActionIcon>
             </a>
             <a target="_blank" href={user?.linkedin} rel="noreferrer">
               <ActionIcon variant="default">
-                <IconBrandLinkedin size={28} />
+                <IconBrandLinkedin size={32} />
               </ActionIcon>
             </a>
             <a target="_blank" href={user?.github} rel="noreferrer">
               <ActionIcon variant="default">
-                <IconBrandGithub size={28} />
+                <IconBrandGithub size={32} />
               </ActionIcon>
             </a>
           </Flex>
         </Grid.Col>
-        <Grid.Col span={2}>
-          <Avatar src={user?.profile} mb="lg" size={128} />
+        <Grid.Col span={3}>
+          <Avatar
+            src={user?.profile && `data:image/png;base64, ${user?.profile}`}
+            mb="lg"
+            size={128}
+          />
           <Text
             size="lg"
             weight="bold"

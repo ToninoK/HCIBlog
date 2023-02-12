@@ -150,11 +150,10 @@ const postsReducer = (state, action) => {
 const PostsProvider = ({ children }) => {
   const [state, dispatch] = useReducer(postsReducer, DEFAULT_STATE);
 
-  const getPosts = async (tags = null) => {
-    console.log("nestoo", tags);
+  const getPosts = async (tags = null, page = null, perPage = null) => {
     dispatch({ type: "GET_POSTS" });
 
-    const query = getQuery({ tags, sort: "desc" });
+    const query = getQuery({ tags, page, per_page: perPage, sort: "desc" });
 
     try {
       const { data } = await api.get(`/posts${query}`);

@@ -1,12 +1,28 @@
+import { useEffect } from "react";
 import { useRouter } from "next/router";
-import { Navbar as MantineNavbar, NavLink, Stack } from "@mantine/core";
+import {
+  Navbar as MantineNavbar,
+  NavLink,
+  Stack,
+  Avatar,
+  Group,
+  Text,
+  Button,
+} from "@mantine/core";
 import { IconArrowLeft } from "@tabler/icons";
 
 import { NAVIGATION, NAVIGATION_PROTECTED } from "../../consts/navigation";
 import { protectedRoutes } from "../../consts/routes";
+import useUser from "../../services/users/useUser";
 
 const Navbar = ({ hidden, onClick }) => {
   const router = useRouter();
+  const { user, userLoading, getUser } = useUser();
+
+  useEffect(() => {
+    getUser("nickarmie@gmail.com");
+    //eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleItemClick = (route) => {
     router.push(route);
@@ -49,6 +65,33 @@ const Navbar = ({ hidden, onClick }) => {
             <></>
           )}
         </Stack>
+      </MantineNavbar.Section>
+      <MantineNavbar.Section ml="md" mb="lg" mt="lg">
+        <Group>
+          <Avatar
+            src={user?.profile && `data:image/png;base64, ${user?.profile}`}
+            size={48}
+          />
+          <div>
+            <Text
+              size="lg"
+              weight="bold"
+            >{`${user?.first_name} ${user?.last_name}`}</Text>
+            <Text size="md" c="dimmed">
+              {user?.email}
+            </Text>
+          </div>
+        </Group>
+        <Button
+          color="gray"
+          variant="subtle"
+          size="xs"
+          compact
+          mt="md"
+          onClick={() => router.push("/login")}
+        >
+          Login
+        </Button>
       </MantineNavbar.Section>
     </MantineNavbar>
   );
