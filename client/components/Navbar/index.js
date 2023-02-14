@@ -66,33 +66,36 @@ const Navbar = ({ hidden, onClick }) => {
           )}
         </Stack>
       </MantineNavbar.Section>
-      <MantineNavbar.Section ml="md" mb="lg" mt="lg">
-        <Group>
-          <Avatar
-            src={user?.profile && `data:image/png;base64, ${user?.profile}`}
-            size={48}
-          />
-          <div>
-            <Text
-              size="lg"
-              weight="bold"
-            >{`${user?.first_name} ${user?.last_name}`}</Text>
-            <Text size="md" c="dimmed">
-              {user?.email}
-            </Text>
-          </div>
-        </Group>
-        <Button
-          color="gray"
-          variant="subtle"
-          size="xs"
-          compact
-          mt="md"
-          onClick={() => router.push("/login")}
-        >
-          Login
-        </Button>
-      </MantineNavbar.Section>
+      {(protectedRoutes.some((item) => router.pathname.startsWith(item)) ?
+        <MantineNavbar.Section ml="md" mb="lg" mt="lg">
+          <Group>
+            <Avatar
+              src={user?.profile && `data:image/png;base64, ${user?.profile}`}
+              size={48}
+            />
+            <div>
+              <Text
+                size="lg"
+                weight="bold"
+              >{`${user?.first_name} ${user?.last_name}`}</Text>
+              <Text size="md" c="dimmed">
+                {user?.email}
+              </Text>
+            </div>
+          </Group>
+          <Button
+            color="gray"
+            variant="subtle"
+            size="xs"
+            compact
+            mt="md"
+            onClick={() => router.push("/login")}
+          >
+            Login
+          </Button>
+        </MantineNavbar.Section>
+        : <></>
+      )}
     </MantineNavbar>
   );
 };
