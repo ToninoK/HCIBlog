@@ -3,8 +3,16 @@ import { Card, Badge, Flex, UnstyledButton, Text } from "@mantine/core";
 
 import usePosts from "../../services/posts/usePosts";
 
-const Tags = () => {
+const Tags = ({ onClick = null }) => {
   const { tags, selectedTags, toggleSelectedTags } = usePosts();
+
+  const handleTagClick = (tag) => {
+    if (onClick) {
+      onClick(tag);
+    } else {
+      toggleSelectedTags(tag);
+    }
+  };
 
   return (
     <Card shadow="sm" p="lg" mb="xl" radius="md" withBorder>
@@ -22,7 +30,7 @@ const Tags = () => {
           return (
             <UnstyledButton
               key={tag.name}
-              onClick={() => toggleSelectedTags(tag.name)}
+              onClick={() => handleTagClick(tag.name)}
             >
               <Badge
                 size="lg"
