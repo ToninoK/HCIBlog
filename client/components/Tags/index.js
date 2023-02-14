@@ -14,6 +14,8 @@ const Tags = ({ onClick = null }) => {
     }
   };
 
+  const tagsIds = tags?.filter((tag) => tag.id);
+
   return (
     <Card shadow="sm" p="lg" mb="xl" radius="md" withBorder>
       <Text weight="bold" size="lg" mb="lg">
@@ -26,22 +28,27 @@ const Tags = ({ onClick = null }) => {
         direction="row"
         wrap="wrap"
       >
-        {tags?.map((tag) => {
-          return (
-            <UnstyledButton
-              key={tag.name}
-              onClick={() => handleTagClick(tag.name)}
-            >
-              <Badge
-                size="lg"
-                color="cyan"
-                variant={selectedTags?.includes(tag.name) ? "filled" : "light"}
+        {tags
+          ?.filter(
+            (el, i, arr) => arr.findIndex((tag) => tag.name === el.name) === i
+          )
+          ?.map((tag) => {
+            return (
+              <UnstyledButton
+                key={tag.name}
+                onClick={() => handleTagClick(tag.name)}
               >
-                #{tag.name}
-              </Badge>
-            </UnstyledButton>
-          );
-        })}
+                <Badge
+                  size="lg"
+                  variant={
+                    selectedTags?.includes(tag.name) ? "filled" : "light"
+                  }
+                >
+                  #{tag.name}
+                </Badge>
+              </UnstyledButton>
+            );
+          })}
       </Flex>
     </Card>
   );

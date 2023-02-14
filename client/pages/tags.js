@@ -39,6 +39,8 @@ const Tags = () => {
     );
   }
 
+  const tagsIds = tags?.filter((tag) => tag.id);
+
   return (
     <>
       <Title order={1} weight="bold" mb="lg">
@@ -47,18 +49,21 @@ const Tags = () => {
       <Grid>
         <Grid.Col sm={12} lg={7}>
           <Flex justify="center" gap="lg" wrap="wrap">
-            {tags?.map((tag) => {
-              return (
-                <UnstyledButton
-                  key={tag.name}
-                  onClick={() => handleTagClick(tag.name)}
-                >
-                  <Badge size="lg" color="cyan">
-                    #{tag.name}
-                  </Badge>
-                </UnstyledButton>
-              );
-            })}
+            {tags
+              ?.filter(
+                (el, i, arr) =>
+                  arr.findIndex((tag) => tag.name === el.name) === i
+              )
+              ?.map((tag) => {
+                return (
+                  <UnstyledButton
+                    key={tag.name}
+                    onClick={() => handleTagClick(tag.name)}
+                  >
+                    <Badge size="lg">#{tag.name}</Badge>
+                  </UnstyledButton>
+                );
+              })}
           </Flex>
         </Grid.Col>
       </Grid>
