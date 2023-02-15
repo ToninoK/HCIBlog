@@ -67,7 +67,7 @@ const Navbar = ({ hidden, onClick }) => {
       </MantineNavbar.Section>
       {(protectedRoutes.some((item) => router.pathname.startsWith(item)) ?
         <></>
-        : <MantineNavbar.Section ml="md" mb="lg" mt="lg" onClick={() => router.push("/login")} style={{cursor: "pointer"}}>
+        : <MantineNavbar.Section ml="md" mb="md" mt="md" onClick={() => router.push("/login")} style={{cursor: "pointer"}}>
           <Group>
             <Avatar
               src={user?.profile && `data:image/png;base64, ${user?.profile}`}
