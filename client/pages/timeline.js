@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useRouter } from "next/router";
 import {
   Loader,
   Card,
@@ -17,6 +18,8 @@ import Tags from "../components/Tags";
 const Timeline = () => {
   const { posts, postsLoading, tagsLoading, selectedTags, getPosts, getTags } =
     usePosts();
+  
+  const router = useRouter();
 
   useEffect(() => {
     getTags();
@@ -27,6 +30,10 @@ const Timeline = () => {
     getPosts(selectedTags);
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedTags]);
+
+  const handlePostClick = (id) => {
+    router.push(`/home/blog/${id}`);
+  };
 
   if (postsLoading || tagsLoading) {
     return (
@@ -55,7 +62,7 @@ const Timeline = () => {
             >
               {posts?.data?.map((post) => {
                 return (
-                  <MantineTimeline.Item title={post.title} key={post.id}>
+                  <MantineTimeline.Item title={post.title} key={post.id} style={{cursor: "pointer"}} onClick={() => handlePostClick(post.id)}>
                     <Text size="xs" mt={4}>
                       {dfs.format(new Date(post.created_at), "MMMM dd, y")}
                     </Text>

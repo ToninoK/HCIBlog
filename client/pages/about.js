@@ -73,7 +73,7 @@ const About = () => {
           <Avatar
             src={user?.profile && `data:image/png;base64, ${user?.profile}`}
             mb="lg"
-            size={128}
+            size={200}
             mr="lg"
           />
 
